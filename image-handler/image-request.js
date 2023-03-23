@@ -17,10 +17,8 @@ const lib_1 = require("./lib");
 const thumbor_mapper_1 = require("./thumbor-mapper");
 class ImageRequest {
     constructor(event, url) {
-        // this.s3Client = s3Client;
-        // this.secretProvider = secretProvider;
-        this.event = event;
-        this.url = url;
+        this.s3Client = s3Client;
+        this.secretProvider = secretProvider;
     }
     /**
      * Determines the output format of an image
@@ -84,8 +82,8 @@ class ImageRequest {
                 let imageRequestInfo = {};
                 imageRequestInfo.requestType = this.parseRequestType(event);
                 console.warn("Request Type: ", imageRequestInfo.requestType);
-                // imageRequestInfo.bucket = this.parseImageBucket(event, imageRequestInfo.requestType);
-                // console.warn("Request Type: ", imageRequestInfo.bucket);
+                imageRequestInfo.bucket = this.parseImageBucket(event, imageRequestInfo.requestType);
+                console.warn("Request Type: ", imageRequestInfo.bucket);
                 imageRequestInfo.key = this.parseImageKey(event, imageRequestInfo.requestType);
                 console.warn("Request Key: ", imageRequestInfo.key);
                 imageRequestInfo.edits = this.parseImageEdits(event, imageRequestInfo.requestType);
