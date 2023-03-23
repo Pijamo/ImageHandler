@@ -1,6 +1,6 @@
 {
     "resource": "/{proxy+}",
-    "path": "/fit-in/500x700/0578599287.jpg",
+    "path": "/fit-in/500x700/https://image.com/0578599287.jpg",
     "httpMethod": "GET",
     "headers": {
         "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7",
@@ -49,7 +49,7 @@
     "queryStringParameters": null,
     "multiValueQueryStringParameters": null,
     "pathParameters": {
-        "proxy": "fit-in/500x700/0578599287.jpg"
+        "proxy": "fit-in/500x700/https://image.com/0578599287.jpg"
     },
     "stageVariables": null,
     "requestContext": {
@@ -58,7 +58,7 @@
         "httpMethod": "GET",
         "extendedRequestId": "CICVIHaQoAMFeYA=",
         "requestTime": "21/Mar/2023:09:49:46 +0000",
-        "path": "/image/fit-in/500x700/0578599287.jpg",
+        "path": "/image/fit-in/500x700/https://image.com/0578599287.jpg",
         "accountId": "120229519644",
         "protocol": "HTTP/1.1",
         "stage": "image",

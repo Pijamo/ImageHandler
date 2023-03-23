@@ -16,7 +16,7 @@ const crypto_1 = require("crypto");
 const lib_1 = require("./lib");
 const thumbor_mapper_1 = require("./thumbor-mapper");
 class ImageRequest {
-    constructor(event, url) {
+    constructor(s3Client, secretProvider) {
         this.s3Client = s3Client;
         this.secretProvider = secretProvider;
     }
@@ -82,8 +82,10 @@ class ImageRequest {
                 let imageRequestInfo = {};
                 imageRequestInfo.requestType = this.parseRequestType(event);
                 console.warn("Request Type: ", imageRequestInfo.requestType);
-                imageRequestInfo.bucket = this.parseImageBucket(event, imageRequestInfo.requestType);
-                console.warn("Request Type: ", imageRequestInfo.bucket);
+                // imageRequestInfo.bucket = this.parseImageBucket(event, imageRequestInfo.requestType);
+                // console.warn("Request Type: ", imageRequestInfo.bucket);
+                imageRequestInfo.url = this.parseImageUrl(event, imageRequestInfo.requestType);
+                console.warn("Request URL: ", imageRequestInfo.url);
                 imageRequestInfo.key = this.parseImageKey(event, imageRequestInfo.requestType);
                 console.warn("Request Key: ", imageRequestInfo.key);
                 imageRequestInfo.edits = this.parseImageEdits(event, imageRequestInfo.requestType);
@@ -172,35 +174,76 @@ class ImageRequest {
      * @param requestType Image handler request type.
      * @returns The name of the appropriate Amazon S3 bucket.
      */
-    parseImageBucket(event, requestType) {
-        if (requestType === lib_1.RequestTypes.DEFAULT) {
-            // Decode the image request
-            const request = this.decodeRequest(event);
-            if (request.bucket !== undefined) {
-                // Check the provided bucket against the allowed list
-                const sourceBuckets = this.getAllowedSourceBuckets();
-                if (sourceBuckets.includes(request.bucket) || request.bucket.match(new RegExp("^" + sourceBuckets[0] + "$"))) {
-                    return request.bucket;
-                }
-                else {
-                    throw new lib_1.ImageHandlerError(lib_1.StatusCodes.FORBIDDEN, "ImageBucket::CannotAccessBucket", "The bucket you specified could not be accessed. Please check that the bucket is specified in your SOURCE_BUCKETS.");
-                }
+    // parseImageBucket(event, requestType) {
+    //     if (requestType === lib_1.RequestTypes.DEFAULT) {
+    //         // Decode the image request
+    //         const request = this.decodeRequest(event);
+    //         if (request.bucket !== undefined) {
+    //             // Check the provided bucket against the allowed list
+    //             const sourceBuckets = this.getAllowedSourceBuckets();
+    //             if (sourceBuckets.includes(request.bucket) || request.bucket.match(new RegExp("^" + sourceBuckets[0] + "$"))) {
+    //                 return request.bucket;
+    //             }
+    //             else {
+    //                 throw new lib_1.ImageHandlerError(lib_1.StatusCodes.FORBIDDEN, "ImageBucket::CannotAccessBucket", "The bucket you specified could not be accessed. Please check that the bucket is specified in your SOURCE_BUCKETS.");
+    //             }
+    //         }
+    //         else {
+    //             // Try to use the default image source bucket env var
+    //             const sourceBuckets = this.getAllowedSourceBuckets();
+    //             return sourceBuckets[0];
+    //         }
+    //     }
+    //     else if (requestType === lib_1.RequestTypes.THUMBOR || requestType === lib_1.RequestTypes.CUSTOM) {
+    //         // Use the default image source bucket env var
+    //         const sourceBuckets = this.getAllowedSourceBuckets();
+    //         return sourceBuckets[0];
+    //     }
+    //     else {
+    //         throw new lib_1.ImageHandlerError(lib_1.StatusCodes.NOT_FOUND, "ImageBucket::CannotFindBucket", "The bucket you specified could not be found. Please check the spelling of the bucket name in your request.");
+    //     }
+    // }
+
+    parseImageUrl(event, requestType) {
+        if (requestType === lib_1.RequestTypes.DEFAULT || requestType === lib_1.RequestTypes.THUMBOR || requestType === lib_1.RequestTypes.CUSTOM) {
+            // Extract the image URL from the path parameters
+            // const imageUrl = event.pathParameters.proxy.split('/').pop();
+
+            const str = "/image/fit-in/500x700/https://image.com/0578599287.jpg";
+
+            // Split the string by the forward slashes
+            const parts = str.split("/");
+
+            // Get the last element of the array, which should be the complete URL string
+            const urlString = parts[parts.length - 1];
+
+            // If the urlString starts with "http://" or "https://", it's already the full URL, so we can return it as is
+            if (urlString.startsWith("http://") || urlString.startsWith("https://")) {
+                console.log("Url1: ", urlString);
+            } else {
+                // Otherwise, we need to concatenate the protocol and domain name to the relative URL
+                const protocolAndDomain = parts[parts.length - 2];
+                const fullUrl = protocolAndDomain + "/" + urlString;
+                console.log("2Url ", fullUrl);
             }
-            else {
-                // Try to use the default image source bucket env var
-                const sourceBuckets = this.getAllowedSourceBuckets();
-                return sourceBuckets[0];
+
+            
+            // Check that the URL is valid
+            const urlRegex = /^(http|https):\/\/[^ "]+$/;
+            if (urlRegex.test(imageUrl)) {
+                return imageUrl;
+            } else {
+                throw new lib_1.ImageHandlerError(lib_1.StatusCodes.BAD_REQUEST, "ImageUrl::InvalidUrl", "The URL you provided is not valid.");
             }
-        }
-        else if (requestType === lib_1.RequestTypes.THUMBOR || requestType === lib_1.RequestTypes.CUSTOM) {
-            // Use the default image source bucket env var
-            const sourceBuckets = this.getAllowedSourceBuckets();
-            return sourceBuckets[0];
         }
         else {
-            throw new lib_1.ImageHandlerError(lib_1.StatusCodes.NOT_FOUND, "ImageBucket::CannotFindBucket", "The bucket you specified could not be found. Please check the spelling of the bucket name in your request.");
+            throw new lib_1.ImageHandlerError(lib_1.StatusCodes.NOT_FOUND, "ImageUrl::UnsupportedRequestType", "Image processing from URLs is not supported for the specified request type.");
         }
     }
+    
+    
+    
+
     /**
      * Parses the edits to be made to the original image.
      * @param event Lambda request body.

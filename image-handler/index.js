@@ -42,6 +42,7 @@ function handler(event) {
         console.warn("Handler Started")
         
         const imageRequest = new image_request_1.ImageRequest(s3Client, secretProvider);
+        console.warn("Handled Image Request")
         const imageHandler = new image_handler_1.ImageHandler(s3Client, rekognitionClient);
         const isAlb = event.requestContext && Object.prototype.hasOwnProperty.call(event.requestContext, "elb");
         try {
