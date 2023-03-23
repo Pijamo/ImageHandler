@@ -1,0 +1,87 @@
+{
+    "resource": "/{proxy+}",
+    "path": "/fit-in/500x700/0578599287.jpg",
+    "httpMethod": "GET",
+    "headers": {
+        "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7",
+        "Accept-Encoding": "gzip",
+        "Host": "m4nwxewx0e.execute-api.us-east-1.amazonaws.com",
+        "User-Agent": "Amazon CloudFront",
+        "Via": "2.0 2e5c0a1d8bd388d881d5a8729d1272d6.cloudfront.net (CloudFront)",
+        "X-Amz-Cf-Id": "EYJKQHLns28LdGARTNzocQK0rPRIlBi3SM3822RvhZsjhIA1GHy-iw==",
+        "X-Amzn-Trace-Id": "Root=1-64197dba-6726afc357e942de65cbcfef",
+        "X-Forwarded-For": "2409:40c0:1008:622b:9147:be31:683a:588b, 64.252.99.219",
+        "X-Forwarded-Port": "443",
+        "X-Forwarded-Proto": "https"
+    },
+    "multiValueHeaders": {
+        "Accept": [
+            "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7"
+        ],
+        "Accept-Encoding": [
+            "gzip"
+        ],
+        "Host": [
+            "m4nwxewx0e.execute-api.us-east-1.amazonaws.com"
+        ],
+        "User-Agent": [
+            "Amazon CloudFront"
+        ],
+        "Via": [
+            "2.0 2e5c0a1d8bd388d881d5a8729d1272d6.cloudfront.net (CloudFront)"
+        ],
+        "X-Amz-Cf-Id": [
+            "EYJKQHLns28LdGARTNzocQK0rPRIlBi3SM3822RvhZsjhIA1GHy-iw=="
+        ],
+        "X-Amzn-Trace-Id": [
+            "Root=1-64197dba-6726afc357e942de65cbcfef"
+        ],
+        "X-Forwarded-For": [
+            "2409:40c0:1008:622b:9147:be31:683a:588b, 64.252.99.219"
+        ],
+        "X-Forwarded-Port": [
+            "443"
+        ],
+        "X-Forwarded-Proto": [
+            "https"
+        ]
+    },
+    "queryStringParameters": null,
+    "multiValueQueryStringParameters": null,
+    "pathParameters": {
+        "proxy": "fit-in/500x700/0578599287.jpg"
+    },
+    "stageVariables": null,
+    "requestContext": {
+        "resourceId": "9qj70i",
+        "resourcePath": "/{proxy+}",
+        "httpMethod": "GET",
+        "extendedRequestId": "CICVIHaQoAMFeYA=",
+        "requestTime": "21/Mar/2023:09:49:46 +0000",
+        "path": "/image/fit-in/500x700/0578599287.jpg",
+        "accountId": "120229519644",
+        "protocol": "HTTP/1.1",
+        "stage": "image",
+        "domainPrefix": "m4nwxewx0e",
+        "requestTimeEpoch": 1679392186144,
+        "requestId": "69e59335-1287-41f8-8906-8fd0ea737214",
+        "identity": {
+            "cognitoIdentityPoolId": null,
+            "accountId": null,
+            "cognitoIdentityId": null,
+            "caller": null,
+            "sourceIp": "2409:40c0:1008:622b:9147:be31:683a:588b",
+            "principalOrgId": null,
+            "accessKey": null,
+            "cognitoAuthenticationType": null,
+            "cognitoAuthenticationProvider": null,
+            "userArn": null,
+            "userAgent": "Amazon CloudFront",
+            "user": null
+        },
+        "domainName": "m4nwxewx0e.execute-api.us-east-1.amazonaws.com",
+        "apiId": "m4nwxewx0e"
+    },
+    "body": null,
+    "isBase64Encoded": false
+}

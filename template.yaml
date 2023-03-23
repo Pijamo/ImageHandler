@@ -1,0 +1,9 @@
+Resources:
+  MyFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: image-handler/index.handler
+      Runtime: nodejs14.x
+      CodeUri: .
+      Timeout: 10
+      MemorySize: 128
